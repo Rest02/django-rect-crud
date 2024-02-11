@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { createTask, deleteTask, updateTask, getTask } from "../api/tasks.api";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 export function TaskFormPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm();
 
   const navigate = useNavigate();
@@ -16,28 +16,23 @@ export function TaskFormPage() {
 
   const enviar = handleSubmit(async (data) => {
     if (params.id) {
-      await updateTask(params.id , data)
-<<<<<<< HEAD
-      toast.success("Tarea Actualizada",{
-        position:"bottom-right",
-        style:{
+      await updateTask(params.id, data);
+      toast.success("Tarea Actualizada", {
+        position: "bottom-right",
+        style: {
           background: "#101010",
-          color: "#fff"
-        }
-      })
+          color: "#fff",
+        },
+      });
     } else {
       await createTask(data);
-      toast.success("Tarea creada",{
-        position:"bottom-right",
-        style:{
+      toast.success("Tarea creada", {
+        position: "bottom-right",
+        style: {
           background: "#101010",
-          color: "#fff"
-        }
-      })
-=======
-    } else {
-      await createTask(data);
->>>>>>> b16b63c3991a2b4d75cfebd24010c22ce310e9e7
+          color: "#fff",
+        },
+      });
     }
     navigate("/tasks");
   });
@@ -46,17 +41,18 @@ export function TaskFormPage() {
     async function loadTask() {
       if (params.id) {
         const res = await getTask(params.id);
-        setValue("title" , res.data.title)
-        setValue("description" , res.data.description)
+        setValue("title", res.data.title);
+        setValue("description", res.data.description);
       }
     }
     loadTask();
   }, []);
 
   return (
-    <div>
+    <div className="max-w-xl mx-auto">
       <form onSubmit={enviar}>
         <input
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
           type="text"
           placeholder="title"
           {...register("title", { required: true })}
@@ -64,6 +60,7 @@ export function TaskFormPage() {
         {errors.title && <span>title is required</span>}
 
         <textarea
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
           name=""
           rows="3"
           placeholder="Description"
@@ -71,30 +68,32 @@ export function TaskFormPage() {
         ></textarea>
         {errors.description && <span>description is required</span>}
 
-        <button>Save</button>
+        <button className="bg-indigo-500 p-3 rounded-lg block w-full mt-3">
+          Save
+        </button>
       </form>
       {params.id && (
-        <button
-          onClick={async () => {
-            const accepted = window.confirm("are you sure ?");
-            if (accepted) {
-              await deleteTask(params.id);
-<<<<<<< HEAD
-              toast.success("Tarea Eliminada",{
-                position:"bottom-right",
-                style:{
-                  background: "#101010",
-                  color: "#fff"
-                }
-              })
-=======
->>>>>>> b16b63c3991a2b4d75cfebd24010c22ce310e9e7
-              navigate("/tasks");
-            }
-          }}
-        >
-          Delete
-        </button>
+        <div className="flex justify-end">
+          <button
+            className="bg-red-500 p-3 rounded-lg w-48 mt-3"
+            onClick={async () => {
+              const accepted = window.confirm("are you sure ?");
+              if (accepted) {
+                await deleteTask(params.id);
+                toast.success("Tarea Eliminada", {
+                  position: "bottom-right",
+                  style: {
+                    background: "#101010",
+                    color: "#fff",
+                  },
+                });
+                navigate("/tasks");
+              }
+            }}
+          >
+            Delete
+          </button>
+        </div>
       )}
     </div>
   );
