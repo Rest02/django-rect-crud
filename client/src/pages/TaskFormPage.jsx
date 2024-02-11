@@ -17,6 +17,7 @@ export function TaskFormPage() {
   const enviar = handleSubmit(async (data) => {
     if (params.id) {
       await updateTask(params.id , data)
+<<<<<<< HEAD
       toast.success("Tarea Actualizada",{
         position:"bottom-right",
         style:{
@@ -33,6 +34,10 @@ export function TaskFormPage() {
           color: "#fff"
         }
       })
+=======
+    } else {
+      await createTask(data);
+>>>>>>> b16b63c3991a2b4d75cfebd24010c22ce310e9e7
     }
     navigate("/tasks");
   });
@@ -74,6 +79,7 @@ export function TaskFormPage() {
             const accepted = window.confirm("are you sure ?");
             if (accepted) {
               await deleteTask(params.id);
+<<<<<<< HEAD
               toast.success("Tarea Eliminada",{
                 position:"bottom-right",
                 style:{
@@ -81,6 +87,8 @@ export function TaskFormPage() {
                   color: "#fff"
                 }
               })
+=======
+>>>>>>> b16b63c3991a2b4d75cfebd24010c22ce310e9e7
               navigate("/tasks");
             }
           }}
